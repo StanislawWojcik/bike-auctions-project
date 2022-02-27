@@ -1,0 +1,24 @@
+{% extends 'auctions/base.html' %}
+
+{% block page_header %}
+  <h3>Your orders</h3>
+{% endblock page_header %}
+
+{% block content %}
+  <ul>
+  {% for item in items_in_cart %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        <a href="{% url 'auctions:auction_view' item.auction.id %}">{{ item.auction.title }}</a> - {{ item.auction.price }}$
+        <small> {{ item.auction.date_added|date:'M d, Y H:i'|linebreaks }} </small>
+        <form action="{% url 'auctions:remove_from_cart' item.id %}" method='post'>
+          {% csrf_token %}
+            <button name="submit" class="btn btn-primary">Cancel this order</button>
+        </form>
+      </h4>
+    </div>
+  {% empty %}
+    <p>There are no auctions :(</p>
+  {% endfor %}
+  </ul>
+{% endblock content %}

@@ -1,0 +1,26 @@
+{% extends 'auctions/base.html' %}
+
+{% block page_header %}
+  <h3>Auctions</h3>
+{% endblock page_header %}
+
+{% block content %}
+  <p>
+    <a href="{% url 'auctions:add_auction' %}">Add a new auction</a>
+  </p>
+
+  <ul>
+  {% for auction in auction_list %}
+    {% if auction.ordered == False %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        <a href="{% url 'auctions:auction_view' auction.id %}">{{ auction.title }}</a> - {{ auction.price }}$
+        <small> {{ auction.date_added|date:'M d, Y H:i'|linebreaks }} </small>
+      </h4>
+    </div>
+    {% endif %}
+  {% empty %}
+    <p>There are no auctions :(</p>
+  {% endfor %}
+  </ul>
+{% endblock content %}

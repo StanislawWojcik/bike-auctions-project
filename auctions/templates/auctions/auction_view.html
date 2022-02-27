@@ -1,0 +1,39 @@
+{% extends "auctions/base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+
+{% if auction.ordered == False %}
+<form action="{% url 'auctions:add_to_cart' auction.id %}" method='post'>
+  {% csrf_token %}
+    <button name="submit" class="btn btn-primary">Buy now</button>
+</form>
+{% else %}
+<p>This item is sold.</p>
+{% endif %}
+
+  <h1>Auction no {{ auction.id }}</h1>
+        <img src="{{ auction.image.url }}" alt="{{ auction.title }}">
+        {% if auction.user == request.user %}
+        <form action="{% url 'auctions:delete_auction' auction.id %}" method='post'>
+          {% csrf_token %}
+            <button name="submit" class="btn btn-primary">delete</button>
+          <a href="{% url 'auctions:edit_auction' auction.id %}">
+            edit post</a>
+        </form>
+        {% endif %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        {{ auction.title|linebreaks }}
+        {{ auction.price|linebreaks }}
+        <small>Date: {{ auction.date_added|date:'M d, Y H:i' }}
+      </h4>
+      <div class="card-body">
+        <b>Bike type:</b>   {{ auction.get_bike_type_display |linebreaks }}
+        <b>Color:</b>       {{ auction.color|linebreaks }}
+        <b>Gears:</b>       {{ auction.gears|linebreaks }}
+        <b>Size:</b>        {{ auction.size|linebreaks }}
+        {{ auction.description|linebreaks }}
+      </div>
+    </div>
+
+{% endblock content %}

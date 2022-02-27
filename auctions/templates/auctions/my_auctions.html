@@ -1,0 +1,20 @@
+{% extends 'auctions/base.html' %}
+
+{% block page_header %}
+  <h3>Your auctions</h3>
+{% endblock page_header %}
+
+{% block content %}
+  <ul>
+  {% for my_auction in my_auctions %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        <a href="{% url 'auctions:auction_view' my_auction.id %}">{{ my_auction.title }}</a> - {{ my_auction.price }}$
+        <small> {{ my_auction.date_added|date:'M d, Y H:i'|linebreaks }} </small>
+      </h4>
+    </div>
+  {% empty %}
+    <p>There are no auctions :(</p>
+  {% endfor %}
+  </ul>
+{% endblock content %}

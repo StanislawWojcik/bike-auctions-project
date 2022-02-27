@@ -1,0 +1,30 @@
+{% extends "auctions/base.html" %}
+{% load bootstrap4 %}
+{% block content %}
+  <h1>Search</h1>
+<form action="{% url 'auctions:search' %}" method='post'>
+    {% csrf_token %}
+    {% bootstrap_form auction_form layout='inline' %}
+    {% buttons %}
+      <button name="submit" class="btn btn-primary">Search</button>
+    {% endbuttons %}
+</form>
+<table>
+<h2>Results:</h2>
+  <ul>
+{% for auction in auctions %}
+  {% if auction.ordered == False %}
+    <div class="card mb-3">
+      <h4 class="card-header">
+        <a href="{% url 'auctions:auction_view' auction.id %}">{{ auction.title }}</a> - ${{ auction.price }}
+        <small> {{ auction.date_added|date:'M d, Y H:i'|linebreaks }} </small>
+      </h4>
+    </div>
+  {% endif %}
+
+{% empty %}
+<p>There are no auctions :(</p>
+
+{% endfor %}
+</ul>
+{% endblock content %}

@@ -1,0 +1,10 @@
+{% extends 'auctions/base.html' %}
+
+{% block page_header %}
+  <h1>Congratulations!</h1>
+{% endblock page_header %}
+
+{% block content %}
+  <h2>You have purchased a bike!</h2>
+  <h3><a href="{% url 'auctions:cart_view' %}">Go to your cart</a></h3>
+{% endblock content %}
